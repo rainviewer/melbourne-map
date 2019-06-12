@@ -23,7 +23,9 @@ for DB in template_postgis "$POSTGRES_DB"; do
 EOSQL
 done
 
-#import Melbourne city
-osm2pgsql --style /openstreetmap-carto/openstreetmap-carto.style -d gis -U postgres -k --slim /Melbourne.osm.pbf
+# Import pbf file with map data
+# In case you want to use "--append" option in the future (very slow by the way),
+# additinally use "--slim --flat-nodes /pbf/nodes.db" paramethers during the first import
+osm2pgsql --style /openstreetmap-carto/openstreetmap-carto.style -d gis -U postgres -v -k -C 14000 --number-processes 6 /pbf/data.osm.pbf
 
 touch /var/lib/postgresql/data/DB_INITED

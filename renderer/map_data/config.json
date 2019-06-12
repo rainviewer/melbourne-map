@@ -5,7 +5,7 @@
 		"HTTPWriteTimeout": "60s",
 		"RequestTimeout":   "600s",
 		"PingPeriod":       "30s",
-		"Threads":          -1,
+		"Threads":          8,
 		"Logging": {
 			"Backend": "Console",
 			"Level":   "Debug",
@@ -72,10 +72,10 @@
 			"Cmd": ["/gopnik/bin/gopnikslave", "-stylesheet", "/openstreetmap-carto/stylesheet.xml", "-pluginsPath", "/usr/lib/mapnik/2.2/input", "-fontsPath", "/usr/share/fonts", "-scaleFactor", "2"],
 			"MinZoom":          1,
 			"MaxZoom":          22,
-			"PoolSize":         2,
+			"PoolSize":         8,
 			"HPQueueSize":      100,
 			"LPQueueSize":      100,
-			"RenderTTL":        10
+			"RenderTTL":        15
 		}
 	]
 }

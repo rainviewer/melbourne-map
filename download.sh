@@ -4,6 +4,18 @@ set -e -u
 
 UNZIP_OPTS=-qqun
 SHAPES_DIR=renderer/shapes
+PBF_DIR=pbf
+DATA_DIR=data
+
+# create data and pbf dirs, download example PBF file
+
+mkdir -p ${DATA_DIR}
+mkdir -p ${PBF_DIR}
+
+chmod 700 ${DATA_DIR}
+
+echo "downloading Melbourne.osm.pbf as example of pbf data into '${PBF_DIR}/data.osm.pbf'"
+curl -z "${PBF_DIR}/data.osm.pbf" -L -o "${PBF_DIR}/data.osm.pbf" "https://download.bbbike.org/osm/bbbike/Melbourne/Melbourne.osm.pbf"
 
 # create and populate data dir
 mkdir -p ${SHAPES_DIR}
@@ -18,17 +30,18 @@ curl -z "${SHAPES_DIR}/world_boundaries-spherical.tgz" -L -o "${SHAPES_DIR}/worl
 echo "expanding world_boundaries..."
 tar -xzf ${SHAPES_DIR}/world_boundaries-spherical.tgz -C ${SHAPES_DIR}/
 
-# simplified-water-polygons-complete-3857
-echo "downloading simplified-water-polygons-complete-3857..."
-curl -z "${SHAPES_DIR}/simplified-water-polygons-complete-3857.zip" -L -o "${SHAPES_DIR}/simplified-water-polygons-complete-3857.zip" "http://data.openstreetmapdata.com/simplified-water-polygons-complete-3857.zip"
-echo "simplified-water-polygons-complete-3857..."
-unzip $UNZIP_OPTS ${SHAPES_DIR}/simplified-water-polygons-complete-3857.zip \
-  simplified-water-polygons-complete-3857/simplified_water_polygons.shp \
-  simplified-water-polygons-complete-3857/simplified_water_polygons.shx \
-  simplified-water-polygons-complete-3857/simplified_water_polygons.prj \
-  simplified-water-polygons-complete-3857/simplified_water_polygons.dbf \
-  simplified-water-polygons-complete-3857/simplified_water_polygons.cpg \
+# simplified-water-polygons-split-3857
+echo "downloading simplified-water-polygons-split-3857..."
+curl -z "${SHAPES_DIR}/simplified-water-polygons-split-3857.zip" -L -o "${SHAPES_DIR}/simplified-water-polygons-split-3857.zip" "https://osmdata.openstreetmap.de/download/simplified-water-polygons-split-3857.zip"
+echo "simplified-water-polygons-split-3857..."
+unzip $UNZIP_OPTS ${SHAPES_DIR}/simplified-water-polygons-split-3857.zip \
+  simplified-water-polygons-split-3857/simplified_water_polygons.shp \
+  simplified-water-polygons-split-3857/simplified_water_polygons.shx \
+  simplified-water-polygons-split-3857/simplified_water_polygons.prj \
+  simplified-water-polygons-split-3857/simplified_water_polygons.dbf \
+  simplified-water-polygons-split-3857/simplified_water_polygons.cpg \
   -d ${SHAPES_DIR}/
+mv ${SHAPES_DIR}/simplified-water-polygons-split-3857/* ${SHAPES_DIR}/simplified-water-polygons-complete-3857
 
 # ne_110m_admin_0_boundary_lines_land
 echo "downloading ne_110m_admin_0_boundary_lines_land..."
@@ -43,7 +56,7 @@ unzip $UNZIP_OPTS ${SHAPES_DIR}/ne_110m_admin_0_boundary_lines_land.zip \
 
 # water-polygons-split-3857
 echo "downloading water-polygons-split-3857..."
-curl -z "${SHAPES_DIR}/water-polygons-split-3857.zip" -L -o "${SHAPES_DIR}/water-polygons-split-3857.zip" "http://data.openstreetmapdata.com/water-polygons-split-3857.zip"
+curl -z "${SHAPES_DIR}/water-polygons-split-3857.zip" -L -o "${SHAPES_DIR}/water-polygons-split-3857.zip" "https://osmdata.openstreetmap.de/download/water-polygons-split-3857.zip"
 echo "expanding water-polygons-split-3857..."
 unzip $UNZIP_OPTS ${SHAPES_DIR}/water-polygons-split-3857.zip \
   water-polygons-split-3857/water_polygons.shp \
@@ -55,7 +68,7 @@ unzip $UNZIP_OPTS ${SHAPES_DIR}/water-polygons-split-3857.zip \
 
 # antarctica-icesheet-polygons-3857
 echo "downloading antarctica-icesheet-polygons-3857..."
-curl -z "${SHAPES_DIR}/antarctica-icesheet-polygons-3857.zip" -L -o "${SHAPES_DIR}/antarctica-icesheet-polygons-3857.zip" "http://data.openstreetmapdata.com/antarctica-icesheet-polygons-3857.zip"
+curl -z "${SHAPES_DIR}/antarctica-icesheet-polygons-3857.zip" -L -o "${SHAPES_DIR}/antarctica-icesheet-polygons-3857.zip" "https://osmdata.openstreetmap.de/download/antarctica-icesheet-polygons-3857.zip"
 echo "expanding antarctica-icesheet-polygons-3857..."
 unzip $UNZIP_OPTS ${SHAPES_DIR}/antarctica-icesheet-polygons-3857.zip \
   antarctica-icesheet-polygons-3857/icesheet_polygons.shp \
@@ -66,7 +79,7 @@ unzip $UNZIP_OPTS ${SHAPES_DIR}/antarctica-icesheet-polygons-3857.zip \
 
 # antarctica-icesheet-outlines-3857
 echo "downloading antarctica-icesheet-outlines-3857..."
-curl -z "${SHAPES_DIR}/antarctica-icesheet-outlines-3857.zip" -L -o "${SHAPES_DIR}/antarctica-icesheet-outlines-3857.zip" "http://data.openstreetmapdata.com/antarctica-icesheet-outlines-3857.zip"
+curl -z "${SHAPES_DIR}/antarctica-icesheet-outlines-3857.zip" -L -o "${SHAPES_DIR}/antarctica-icesheet-outlines-3857.zip" "https://osmdata.openstreetmap.de/download/antarctica-icesheet-outlines-3857.zip"
 echo "expanding antarctica-icesheet-outlines-3857..."
 unzip $UNZIP_OPTS ${SHAPES_DIR}/antarctica-icesheet-outlines-3857.zip \
   antarctica-icesheet-outlines-3857/icesheet_outlines.shp \
@@ -77,5 +90,3 @@ unzip $UNZIP_OPTS ${SHAPES_DIR}/antarctica-icesheet-outlines-3857.zip \
 
 rm renderer/shapes/*.zip
 rm renderer/shapes/*.tgz
-
-

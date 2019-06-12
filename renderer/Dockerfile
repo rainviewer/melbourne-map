@@ -5,13 +5,13 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /
-RUN wget https://github.com/adobe-fonts/source-sans-pro/archive/2.020R-ro/1.075R-it.tar.gz && \
-    tar -xzvf 1.075R-it.tar.gz && \
+RUN wget https://github.com/adobe-fonts/source-sans-pro/archive/2.045R-ro/1.095R-it.tar.gz && \
+    tar -xzvf 1.095R-it.tar.gz && \
     mkdir /usr/share/fonts/truetype/sourcepro-ttf/ && \
-    cp source-sans-pro-2.020R-ro-1.075R-it/TTF/*.ttf /usr/share/fonts/truetype/sourcepro-ttf/ && \
+    cp source-sans-pro-2.045R-ro-1.095R-it/TTF/*.ttf /usr/share/fonts/truetype/sourcepro-ttf/ && \
     fc-cache && \
-    rm 1.075R-it.tar.gz && \
-    rm -rf source-sans-pro-2.020R-ro-1.075R-it
+    rm 1.095R-it.tar.gz && \
+    rm -rf source-sans-pro-2.045R-ro-1.095R-it
 
 RUN git clone https://github.com/dooman87/openstreetmap-carto.git
 WORKDIR /openstreetmap-carto

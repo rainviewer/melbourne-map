@@ -3,9 +3,13 @@ services:
   postgis:
     build: ./postgis
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - ./postgis/postgresql.conf:/etc/postgresql/postgresql.conf
+      - /Users/lucky/data:/var/lib/postgresql/data
+      - ./pbf:/pbf
+    command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
     environment:
       - POSTGRES_DB=gis
+    restart: unless-stopped
   renderer:
     build: ./renderer
     volumes:
@@ -18,9 +22,14 @@ services:
       - "9090:9090"
     depends_on:
       - postgis
+    restart: unless-stopped
   web:
-    image: nginx:1.11-alpine
+    image: nginx:alpine
     volumes:
-      - ./web:/usr/share/nginx/html
+      - ./web/default.conf:/etc/nginx/conf.d/default.conf
+      - ./web/index.html:/usr/share/nginx/html/index.html
     ports:
-      - "8888:80"
+      - "80:80"
+    depends_on:
+      - renderer
+    restart: unless-stopped

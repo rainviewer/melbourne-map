@@ -6,7 +6,6 @@ Provides a configuration to launch your own retina ready map renderer.
 
 ```
 $ ./download.sh
-$ docker-compose build
 $ docker-compose up
 ```
 
@@ -29,7 +28,7 @@ renderer_1  | 2016/12/27 23:34:35 main.go:103: [INFO] Starting on %s... :8090
 
 Then you can open example in your favourite web browser:
 ```
-http://localhost:8888
+http://localhost/
 ```
 The initial rendering may take 10-30 seconds, after which you will see a fabulous map of Melbourne city.
 
@@ -40,11 +39,7 @@ You will need to update postgis image to render other city/area:
 
 * Update postgis/Dockerfile by adding different pbf file to container
 ```
-wget https://s3.amazonaws.com/metro-extracts.mapzen.com/melbourne_australia.osm.pbf
-```
-* Update postgis/initdb-postgis.sh to use a new file
-```
-osm2pgsql --style /openstreetmap-carto/openstreetmap-carto.style -d gis -U postgres -k --slim /melbourne_australia.osm.pbf
+wget https://download.bbbike.org/osm/bbbike/Melbourne/Melbourne.osm.pbf
 ```
 
 ## Using custom style
@@ -57,7 +52,7 @@ There are two places that you have to tweak to use different style:
 
 * postgis/initdb-postgis.sh is using style during DB import (--style option):
 ```
-osm2pgsql --style /openstreetmap-carto/openstreetmap-carto.style -d gis -U postgres -k --slim /melbourne_australia.osm.pbf
+osm2pgsql --style /openstreetmap-carto/openstreetmap-carto.style -d gis -U postgres -k --slim /pbf/data.osm.pbf
 ```
 * renderer/map_data/config.json defines style on line 72:
 ```
