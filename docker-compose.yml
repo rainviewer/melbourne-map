@@ -4,7 +4,7 @@ services:
     build: ./postgis
     volumes:
       - ./postgis/postgresql.conf:/etc/postgresql/postgresql.conf
-      - /Users/lucky/data:/var/lib/postgresql/data
+      - ./data:/var/lib/postgresql/data
       - ./pbf:/pbf
     command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
     environment:
